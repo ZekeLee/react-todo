@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
   }
   #root{
     margin: 0 auto;
+    max-width: 480px;
     height: 100%;
     overflow: hidden auto;
   }

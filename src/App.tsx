@@ -1,11 +1,16 @@
+import Header from './components/Header';
+import Content from './components/Content';
+
 import GlobalStyle from './styles/GlobalStyle';
 
-function App() {
+const App = () => {
   return (
-    <div>
+    <>
       <GlobalStyle />
-    </div>
+      <Header />
+      <Content />
+    </>
   );
-}
+};
 
 export default App;
