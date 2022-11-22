@@ -13,16 +13,18 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     color: #fff;
     word-break:break-word;
-    background-color: #000;
+    background-color: #fff;
   }
   #root{
     margin: 0 auto;
+    padding: 1rem;
     max-width: 480px;
     height: 100%;
+    background-color: #222;
     overflow: hidden auto;
   }
   a, button, input{all: unset;}
-  a, button{cursor:pointer;}
+  a, button{background-color:transparent;cursor:pointer;}
 `;
 
 export default GlobalStyle;

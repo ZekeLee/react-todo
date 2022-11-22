@@ -13,36 +13,29 @@ const TodoItem = styled.li`
   gap: 0.5rem;
   padding: 1rem 0;
 
-  div {
+  > div {
     flex-grow: 1;
   }
 `;
 
 const Content = () => {
+  const toDos = [
+    { id: '1', title: '공부하기', completed: true },
+    { id: '2', title: '청소하기', completed: false },
+  ];
+
   return (
     <main>
       <TodoList>
-        <TodoItem>
-          <div>
-            <input type="checkbox" id="1" />
-            <label htmlFor="1">할 일</label>
-          </div>
-          <button type="button">❎</button>
-        </TodoItem>
-        <TodoItem>
-          <div>
-            <input type="checkbox" id="2" />
-            <label htmlFor="2">할 일</label>
-          </div>
-          <button type="button">❎</button>
-        </TodoItem>
-        <TodoItem>
-          <div>
-            <input type="checkbox" id="3" />
-            <label htmlFor="3">할 일</label>
-          </div>
-          <button type="button">❎</button>
-        </TodoItem>
+        {toDos.map((data) => (
+          <TodoItem key={data.id}>
+            <div>
+              <input type="checkbox" id={data.id} />
+              <label htmlFor={data.id}>{data.title}</label>
+            </div>
+            <button type="button">❎</button>
+          </TodoItem>
+        ))}
       </TodoList>
     </main>
   );
