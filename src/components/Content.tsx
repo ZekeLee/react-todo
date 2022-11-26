@@ -25,13 +25,23 @@ const TodoList = styled.ul`
 
 const TodoItem = styled.li`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  padding: 1rem 0;
 
   > div {
+    display: flex;
     flex-grow: 1;
+
+    input:checked + label {
+      text-decoration: line-through;
+    }
+
+    label {
+      flex-grow: 1;
+      padding: 1rem 0;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -42,10 +52,7 @@ interface ITodo {
 }
 
 const Content = () => {
-  const [todos, setTodos] = useState<ITodo[]>([
-    { id: '1', title: '공부하기', completed: true },
-    { id: '2', title: '청소하기', completed: false },
-  ]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
 
   const [formValue, setFormValue] = useState('');
 
@@ -55,10 +62,24 @@ const Content = () => {
     setFormValue(newValue);
   };
 
+  const toggleChange = (id: string) => {
+    const newTodo = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+
+      return todo;
+    });
+
+    setTodos(newTodo);
+  };
+
+  console.log(todos);
+
   const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let newTodo: ITodo = {
+    const newTodo: ITodo = {
       id: Date.now() + '',
       title: formValue,
       completed: false,
@@ -89,7 +110,12 @@ const Content = () => {
         {todos.map((data) => (
           <TodoItem key={data.id}>
             <div>
-              <input type="checkbox" id={data.id} />
+              <input
+                type="checkbox"
+                id={data.id}
+                onChange={() => toggleChange(data.id)}
+                checked={data.completed ? true : false}
+              />
               <label htmlFor={data.id}>{data.title}</label>
             </div>
             <button type="button" onClick={() => removeTodo(data.id)}>
