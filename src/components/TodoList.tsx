@@ -1,5 +1,6 @@
 import { ITodo } from './Content';
 import TodoItem from './TodoItem';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import styled from 'styled-components';
 
@@ -15,12 +16,31 @@ interface IPropsData {
 }
 
 const TodoList = ({ todos, setTodos }: IPropsData) => {
+  const onDragEnd = () => {};
+
   return (
-    <List>
-      {todos.map((todo: ITodo) => (
-        <TodoItem key={todo.id} todo={todo} todos={todos} setTodos={setTodos} />
-      ))}
-    </List>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppableTodo">
+        {(provided) => (
+          <List {...provided.droppableProps} ref={provided.innerRef}>
+            {todos.map((todo: ITodo, index) => (
+              <Draggable key={todo.id} draggableId={todo.id} index={index}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <TodoItem todo={todo} todos={todos} setTodos={setTodos} />
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </List>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
