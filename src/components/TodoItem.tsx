@@ -2,7 +2,7 @@ import { ITodo } from './Content';
 
 import styled from 'styled-components';
 
-const Item = styled.li`
+const Item = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
