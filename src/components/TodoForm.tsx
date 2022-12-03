@@ -28,14 +28,16 @@ const TodoForm = ({ todos, setTodos, formValue, setFormValue }: IPropsData) => {
   const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newTodo: ITodo = {
-      id: Date.now() + '',
-      title: formValue,
-      completed: false,
-    };
+    if (formValue) {
+      const newTodo: ITodo = {
+        id: Date.now() + '',
+        title: formValue,
+        completed: false,
+      };
 
-    setTodos([...todos, newTodo]);
-    setFormValue('');
+      setTodos([...todos, newTodo]);
+      setFormValue('');
+    }
   };
 
   return (
@@ -45,6 +47,7 @@ const TodoForm = ({ todos, setTodos, formValue, setFormValue }: IPropsData) => {
         onChange={handleValueChange}
         placeholder="해야할 일을 입력하세요."
         value={formValue}
+        required
       />
       <button type="submit">➕</button>
     </Form>
