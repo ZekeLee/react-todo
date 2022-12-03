@@ -1,3 +1,4 @@
+import React from 'react';
 import { ITodo } from './Content';
 import TodoItem from './TodoItem';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -72,4 +73,4 @@ const TodoList = ({ todos, setTodos }: IPropsData) => {
   );
 };
 
-export default TodoList;
+export default React.memo(TodoList);

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ITodo } from './Content';
 
 import styled from 'styled-components';
@@ -67,4 +68,4 @@ const TodoItem = ({ todo, todos, setTodos }: IPropsData) => {
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);
