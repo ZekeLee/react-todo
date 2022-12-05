@@ -12,6 +12,12 @@ const List = styled.ul`
   }
 `;
 
+const ClearButton = styled.button.attrs({ type: 'button' })`
+  padding: 0.5rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.2);
+`;
+
 interface IPropsData {
   todos: ITodo[];
   setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
@@ -42,34 +48,41 @@ const TodoList = ({ todos, setTodos }: IPropsData) => {
       copyTodo.splice(result.destination.index, 0, reorderedItem); // 3. 배열의 도착지점의 인덱스에 삭제했던 아이템을 추가한다.
       setTodos(copyTodo); // 4. 변경된 배열로 할 일 목록 배열을 수정한다.
     }
+  };
 
-    return;
+  const handleClear = () => {
+    setTodos([]);
   };
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="droppableTodo">
-        {(provided) => (
-          <List {...provided.droppableProps} ref={provided.innerRef}>
-            {todos.map((todo: ITodo, index) => (
-              <Draggable key={todo.id} draggableId={todo.id} index={index}>
-                {(provided, snapshot) => (
-                  <li
-                    className={`${snapshot.isDragging ? 'drag' : null}`}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <TodoItem todo={todo} todos={todos} setTodos={setTodos} />
-                  </li>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </List>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <>
+      {todos.length > 1 ? (
+        <ClearButton onClick={handleClear}>할 일 모두 지우기</ClearButton>
+      ) : null}
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppableTodo">
+          {(provided) => (
+            <List {...provided.droppableProps} ref={provided.innerRef}>
+              {todos.map((todo: ITodo, index) => (
+                <Draggable key={todo.id} draggableId={todo.id} index={index}>
+                  {(provided, snapshot) => (
+                    <li
+                      className={`${snapshot.isDragging ? 'drag' : null}`}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <TodoItem todo={todo} todos={todos} setTodos={setTodos} />
+                    </li>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </List>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </>
   );
 };
 
