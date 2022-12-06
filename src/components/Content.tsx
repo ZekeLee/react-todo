@@ -14,6 +14,7 @@ export interface ITodo {
   id: string;
   title: string;
   completed: boolean;
+  isEdit: boolean;
 }
 
 const Content = () => {

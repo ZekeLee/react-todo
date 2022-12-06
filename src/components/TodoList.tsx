@@ -51,13 +51,18 @@ const TodoList = ({ todos, setTodos }: IPropsData) => {
   };
 
   const handleClear = () => {
-    setTodos([]);
+    if (window.confirm('할 일 목록을 모두 삭제하시겠습니까?')) {
+      setTodos([]);
+    }
   };
 
   return (
     <>
       {todos.length > 1 ? (
-        <ClearButton onClick={handleClear}>할 일 모두 지우기</ClearButton>
+        <>
+          <p>할 일 목록을 드래그해서 순서를 바꿀 수 있습니다.</p>
+          <ClearButton onClick={handleClear}>할 일 모두 지우기</ClearButton>
+        </>
       ) : null}
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppableTodo">
@@ -72,7 +77,13 @@ const TodoList = ({ todos, setTodos }: IPropsData) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <TodoItem todo={todo} todos={todos} setTodos={setTodos} />
+                      <TodoItem
+                        todo={todo}
+                        todos={todos}
+                        setTodos={setTodos}
+                        isEdit={todo.isEdit}
+                        title={todo.title}
+                      />
                     </li>
                   )}
                 </Draggable>

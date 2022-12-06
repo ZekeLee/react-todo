@@ -33,6 +33,7 @@ const TodoForm = ({ todos, setTodos, formValue, setFormValue }: IPropsData) => {
         id: Date.now() + '',
         title: formValue,
         completed: false,
+        isEdit: false,
       };
 
       setTodos([...todos, newTodo]);

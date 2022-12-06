@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ITodo } from './Content';
 
 import styled from 'styled-components';
@@ -12,15 +12,21 @@ const Item = styled.div`
   > div {
     display: flex;
     flex-grow: 1;
+    padding: 0.5rem 0;
 
     input:checked + label {
       text-decoration: line-through;
     }
 
     label {
+      padding: 0.5rem 0;
       flex-grow: 1;
-      padding: 1rem 0;
       cursor: pointer;
+    }
+
+    textarea {
+      flex-grow: 1;
+      resize: none;
     }
   }
 `;
@@ -29,9 +35,13 @@ interface IPropsData {
   todo: ITodo;
   todos: ITodo[];
   setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
+  isEdit: boolean;
+  title: string;
 }
 
-const TodoItem = ({ todo, todos, setTodos }: IPropsData) => {
+const TodoItem = ({ todo, todos, setTodos, isEdit, title }: IPropsData) => {
+  const [value, setValue] = useState(title);
+
   const handleToggleChange = (id: string) => {
     const newTodo = todos.map((todo) => {
       if (todo.id === id) {
@@ -44,23 +54,56 @@ const TodoItem = ({ todo, todos, setTodos }: IPropsData) => {
     setTodos(newTodo);
   };
 
-  const removeTodo = (id: string) => {
-    const newTodos = todos.filter((data) => id !== data.id);
+  const handleEdit = (id: string) => {
+    const newTodo = todos.map((todo) => {
+      if (todo.id === id) {
+        if (todo.isEdit) {
+          if (window.confirm('할 일을 수정하시겠습니까?')) {
+            todo.title = value;
+          }
+        }
+        todo.isEdit = !todo.isEdit;
+      }
 
-    setTodos(newTodos);
+      return todo;
+    });
+
+    setTodos(newTodo);
+  };
+
+  const changeValue = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    setValue(e.currentTarget.value);
+  };
+
+  const removeTodo = (id: string) => {
+    if (window.confirm('할 일을 삭제하시겠습니까?')) {
+      const newTodos = todos.filter((data) => id !== data.id);
+
+      setTodos(newTodos);
+    }
   };
 
   return (
     <Item>
       <div>
-        <input
-          type="checkbox"
-          id={todo.id}
-          onChange={() => handleToggleChange(todo.id)}
-          checked={todo.completed ? true : false}
-        />
-        <label htmlFor={todo.id}>{todo.title}</label>
+        {isEdit ? (
+          <textarea autoFocus onChange={changeValue} value={value} />
+        ) : (
+          <>
+            <input
+              type="checkbox"
+              id={todo.id}
+              onChange={() => handleToggleChange(todo.id)}
+              checked={todo.completed ? true : false}
+            />
+            <label htmlFor={todo.id}>{todo.title}</label>
+          </>
+        )}
       </div>
+
+      <button type="button" onClick={() => handleEdit(todo.id)}>
+        {isEdit ? '✅' : '✏️'}
+      </button>
       <button type="button" onClick={() => removeTodo(todo.id)}>
         ❎
       </button>
