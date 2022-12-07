@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
@@ -20,6 +20,11 @@ export interface ITodo {
 const Content = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [formValue, setFormValue] = useState('');
+
+  useEffect(() => {
+    let initialData = localStorage.getItem('todoList');
+    initialData ? setTodos(JSON.parse(initialData)) : setTodos([]);
+  }, []);
 
   return (
     <Container>

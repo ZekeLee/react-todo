@@ -47,12 +47,14 @@ const TodoList = ({ todos, setTodos }: IPropsData) => {
 
       copyTodo.splice(result.destination.index, 0, reorderedItem); // 3. 배열의 도착지점의 인덱스에 삭제했던 아이템을 추가한다.
       setTodos(copyTodo); // 4. 변경된 배열로 할 일 목록 배열을 수정한다.
+      localStorage.setItem('todoList', JSON.stringify(copyTodo));
     }
   };
 
   const handleClear = () => {
     if (window.confirm('할 일 목록을 모두 삭제하시겠습니까?')) {
       setTodos([]);
+      localStorage.setItem('todoList', JSON.stringify([]));
     }
   };
 

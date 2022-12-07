@@ -43,7 +43,7 @@ const TodoItem = ({ todo, todos, setTodos, isEdit, title }: IPropsData) => {
   const [value, setValue] = useState(title);
 
   const handleToggleChange = (id: string) => {
-    const newTodo = todos.map((todo) => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.completed = !todo.completed;
       }
@@ -51,14 +51,17 @@ const TodoItem = ({ todo, todos, setTodos, isEdit, title }: IPropsData) => {
       return todo;
     });
 
-    setTodos(newTodo);
+    setTodos(newTodos);
+    localStorage.setItem('todoList', JSON.stringify(newTodos));
   };
 
   const handleEdit = (id: string) => {
-    const newTodo = todos.map((todo) => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         if (todo.isEdit) {
-          if (window.confirm('할 일을 수정하시겠습니까?')) {
+          if (todo.title === value) {
+            todo.title = value;
+          } else if (window.confirm('할 일을 수정하시겠습니까?')) {
             todo.title = value;
           }
         }
@@ -68,7 +71,8 @@ const TodoItem = ({ todo, todos, setTodos, isEdit, title }: IPropsData) => {
       return todo;
     });
 
-    setTodos(newTodo);
+    setTodos(newTodos);
+    localStorage.setItem('todoList', JSON.stringify(newTodos));
   };
 
   const changeValue = (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -80,6 +84,7 @@ const TodoItem = ({ todo, todos, setTodos, isEdit, title }: IPropsData) => {
       const newTodos = todos.filter((data) => id !== data.id);
 
       setTodos(newTodos);
+      localStorage.setItem('todoList', JSON.stringify(newTodos));
     }
   };
 

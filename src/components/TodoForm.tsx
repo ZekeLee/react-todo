@@ -37,6 +37,7 @@ const TodoForm = ({ todos, setTodos, formValue, setFormValue }: IPropsData) => {
       };
 
       setTodos([...todos, newTodo]);
+      localStorage.setItem('todoList', JSON.stringify([...todos, newTodo]));
       setFormValue('');
     }
   };
