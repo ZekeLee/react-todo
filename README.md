@@ -2,7 +2,7 @@
 
 ## 📌 Deploy URL
 
-- [https://dingunote.github.io/react-todo/](https://dingunote.github.io/react-todo/)
+- [https://zekelee.github.io/react-todo/](https://zekelee.github.io/react-todo/)
 
 ## 📌 Skills
 
